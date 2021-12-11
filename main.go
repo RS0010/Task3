@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Task3/api"
+	"Task3/route"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +13,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	api.Init(router)
+	route.Init(router)
 	err = router.Run(":80")
 	if err != nil {
 		panic(err)

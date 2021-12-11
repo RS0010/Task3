@@ -1,4 +1,4 @@
-package api
+package route
 
 import (
 	"Task3/Schemas"
