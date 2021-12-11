@@ -1,16 +1,14 @@
-package route
+package api
 
 import (
 	"Task3/Schemas"
+	. "Task3/route"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func init() {
-	version[v1].addApi(api{
-		path: "/ping",
-		GET:  pongGet,
-	})
+	Version[V1].Group("/ping").GET(pongGet)
 }
 
 func pongGet(context *gin.Context) {
