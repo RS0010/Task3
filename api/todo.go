@@ -1,12 +1,13 @@
 package api
 
 import (
+	. "Task3/route"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	//group := version[v1].Group("/todo")
-	//group.GET(todoGet)
+	group := Version[V1].Group("/todo")
+	group.GET(todoGet)
 }
 
 func todoGet(context *gin.Context) {

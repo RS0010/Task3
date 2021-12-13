@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "Task3/api"
 	"Task3/route"
 	"github.com/gin-gonic/gin"
 )
