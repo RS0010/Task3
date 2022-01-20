@@ -1,0 +1,381 @@
+openapi: 3.0.3
+info:
+  title: Todo
+  description: A todo application.
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:80/v1'
+tags:
+  - name: user
+    description: Operations about user
+  - name: todo
+    description: Operations about to-do list
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Create a new user with username and password.
+      operationId: createUser
+      requestBody:
+        description: User created object
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  default: username
+                passcode:
+                  type: string
+                  default: password
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: object
+                    properties:
+                      userid:
+                        type: integer
+                        default: 1
+                      username:
+                        type: string
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+  /token:
+    get:
+      tags:
+        - user
+      parameters:
+        - name: userid
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: passcode
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: object
+                    properties:
+                      authToken:
+                        type: string
+                      refreshToken:
+                        type: string
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+  /token/new:
+    get:
+      tags:
+        - user
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: object
+                    properties:
+                      authToken:
+                        type: string
+                      refreshToken:
+                        type: string
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+  /todo:
+    post:
+      tags:
+        - todo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                start:
+                  type: integer
+                deadline:
+                  type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: array
+                        items:
+                          properties:
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            content:
+                              type: string
+                            view:
+                              type: integer
+                            done:
+                              type: boolean
+                            start_time:
+                              type: integer
+                            deadline:
+                              type: integer
+                            created_at:
+                              type: integer
+                      total:
+                        type: integer
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+    get:
+      tags:
+        - todo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+        - name: keyword
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: type
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: array
+                        items:
+                          properties:
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            content:
+                              type: string
+                            view:
+                              type: integer
+                            done:
+                              type: boolean
+                            start_time:
+                              type: integer
+                            deadline:
+                              type: integer
+                            created_at:
+                              type: integer
+                      total:
+                        type: integer
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+    delete:
+      tags:
+        - todo
+      summary: Delete todo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+        - name: type
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+  /todo/done:
+    post:
+      tags:
+        - todo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+    delete:
+      tags:
+        - todo
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    default: 200
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                  error:
+                    type: string
+                    nullable: true
+                    default: null
+components:
+  securitySchemes:
+    JWTAuth:
+      type: apiKey
+      in: header
+      name: token
+
+  responses:
+    200:
+      description: successful operation
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                default: 200
+              data:
+                type: object
+              error:
+                type: string
+                nullable: true
+                default: null

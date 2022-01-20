@@ -6,8 +6,7 @@ import (
 )
 
 var (
-	db     *gorm.DB
-	TodoDB *gorm.DB
+	db *gorm.DB
 )
 
 func init() {
@@ -20,5 +19,12 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	TodoDB = db.Model(&Data{})
+}
+
+func userDb() *gorm.DB {
+	return db.Model(&User{})
+}
+
+func todoDb() *gorm.DB {
+	return db.Model(&Data{})
 }

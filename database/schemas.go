@@ -11,7 +11,9 @@ type (
 		Title     string `json:"title"`
 		Content   string `json:"content"`
 		Done      bool   `json:"status"`
-		StartTime int    `json:"startTime" gorm:"autoCreateTime:milli"`
+		View      int    `json:"view"`
+		CreatedAt int    `json:"createdAt" gorm:"autoCreateTime:milli"`
+		StartTime int    `json:"startTime"`
 		Deadline  int    `json:"deadline"`
 		UserId    int    `gorm:"column:userid"`
 	}
